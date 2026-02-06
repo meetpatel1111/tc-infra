@@ -164,7 +164,7 @@ storage_accounts = {
     }
     "containers" = [
       {
-        "name"        = "bootdiagnostics-termscond-052dce4b-4dfe-488e-a32c-c71151576db7"
+        "name" = "bootdiagnostics-termscond-052dce4b-4dfe-488e-a32c-c71151576db7"
       }
     ]
   }
@@ -190,7 +190,7 @@ storage_accounts = {
     }
     "containers" = [
       {
-        "name"        = "bootdiagnostics-iisserver-2b9f7e04-df41-4f52-8be6-164c8ef1cfaf"
+        "name" = "bootdiagnostics-iisserver-2b9f7e04-df41-4f52-8be6-164c8ef1cfaf"
       }
     ]
   }
