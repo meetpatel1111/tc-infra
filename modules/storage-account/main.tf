@@ -19,40 +19,6 @@ resource "azurerm_storage_account" "this" {
   tags = var.tags
 }
 
-# Create Storage service subresources to match ARM template
-resource "azapi_resource" "blob" {
-  type      = "Microsoft.Storage/storageAccounts/blobServices@2025-01-01"
-  name      = "default"
-  parent_id = azurerm_storage_account.this.id
-  body = {
-    properties = {
-      cors                  = { corsRules = [] }
-      deleteRetentionPolicy = { enabled = false, allowPermanentDelete = false }
-    }
-  }
-}
-
-resource "azapi_resource" "file" {
-  type      = "Microsoft.Storage/storageAccounts/fileServices@2025-01-01"
-  name      = "default"
-  parent_id = azurerm_storage_account.this.id
-  body      = { properties = { protocolSettings = { smb = {} }, cors = { corsRules = [] } } }
-}
-
-resource "azapi_resource" "queue" {
-  type      = "Microsoft.Storage/storageAccounts/queueServices@2025-01-01"
-  name      = "default"
-  parent_id = azurerm_storage_account.this.id
-  body      = { properties = { cors = { corsRules = [] } } }
-}
-
-resource "azapi_resource" "table" {
-  type      = "Microsoft.Storage/storageAccounts/tableServices@2025-01-01"
-  name      = "default"
-  parent_id = azurerm_storage_account.this.id
-  body      = { properties = { cors = { corsRules = [] } } }
-}
-
 resource "azurerm_storage_account_static_website" "this" {
   count              = var.enable_static_website ? 1 : 0
   storage_account_id = azurerm_storage_account.this.id

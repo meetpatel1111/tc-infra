@@ -210,8 +210,7 @@ module "recovery_vault" {
   cross_subscription_restore_enabled = var.recovery_vault.cross_subscription_restore_enabled
   public_network_access_enabled      = var.recovery_vault.public_network_access_enabled
 
-  vm_policies         = var.recovery_vault.vm_policies
-  sql_workload_policy = try(var.recovery_vault.sql_workload_policy, null)
+  vm_policies = var.recovery_vault.vm_policies
 
   tags = var.tags
 }

@@ -153,7 +153,7 @@ windows_vms = {
     "size"             = "Standard_B2ms"
     "nic_key"          = "iisserver845"
     "admin_username"   = "serveradmin"
-    "admin_password"   = "SecureP@ssw0rd!"
+    "admin_password"   = "CHANGE_ME_STRONG_PASSWORD"
     "license_type"     = "Windows_Server"
     "enable_boot_diag" = true
     "boot_diag_sa_key" = "danposterscopetcdiag"
@@ -188,7 +188,7 @@ windows_vms = {
     "size"             = "Standard_B2ms"
     "nic_key"          = "termsconditions215"
     "admin_username"   = "serveradmin"
-    "admin_password"   = "SecureP@ssw0rd!"
+    "admin_password"   = "CHANGE_ME_STRONG_PASSWORD"
     "license_type"     = "Windows_Server"
     "enable_boot_diag" = true
     "boot_diag_sa_key" = "danposterscopetcdiag"
@@ -338,13 +338,5 @@ recovery_vault = {
       "backup_time"           = "08:00"
       "retention_daily_count" = 30
     }
-  }
-  "sql_workload_policy" = {
-    "name"                      = "HourlyLogBackup"
-    "timezone"                  = "UTC"
-    "full_backup_time"          = "08:00"
-    "full_retention_days"       = 30
-    "log_backup_frequency_mins" = 60
-    "log_retention_days"        = 30
   }
 }
