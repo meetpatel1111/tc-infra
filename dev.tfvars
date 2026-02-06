@@ -3,8 +3,9 @@ resource_group_name = "rg-posterscope-tc"
 resource_group_location = "eastus"
 
 tags = {
-  "app" = "posterscope-terms"
-  "env" = "dev"
+  "app"     = "posterscope-terms"
+  "env"     = "dev"
+  "version" = "v1.0"
 }
 
 vnets = {
