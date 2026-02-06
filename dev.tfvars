@@ -4,7 +4,7 @@ resource_group_location = "eastus"
 
 tags = {
   "app" = "posterscope-terms"
-  "env" = "prod"
+  "env" = "dev"
 }
 
 vnets = {
