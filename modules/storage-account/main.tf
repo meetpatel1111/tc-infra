@@ -31,5 +31,4 @@ resource "azurerm_storage_container" "containers" {
   name                  = each.value.name
   storage_account_id    = azurerm_storage_account.this.id
   container_access_type = each.value.access_type
-  depends_on            = [azapi_resource.blob]
 }
