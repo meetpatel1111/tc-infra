@@ -119,8 +119,20 @@ jobs:
         VAULT_SETTINGS_ADDR='module.recovery_vault.azapi_resource.replication_vault_settings'
         VAULT_SETTINGS_ID="/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.RecoveryServices/vaults/${VAULT_NAME}/replicationVaultSettings/default"
 
-        terraform import -input=false "${ALERT_ADDR}" "${ALERT_ID}" || true
-        terraform import -input=false "${VAULT_SETTINGS_ADDR}" "${VAULT_SETTINGS_ID}" || true
+        echo "--- terraform state BEFORE imports ---"
+        terraform state list || true
+
+        if terraform import -input=false "${ALERT_ADDR}" "${ALERT_ID}"; then
+          echo "Imported: ${ALERT_ADDR}"
+        else
+          echo "Import failed (continuing): ${ALERT_ADDR}"
+        fi
+
+        if terraform import -input=false "${VAULT_SETTINGS_ADDR}" "${VAULT_SETTINGS_ID}"; then
+          echo "Imported: ${VAULT_SETTINGS_ADDR}"
+        else
+          echo "Import failed (continuing): ${VAULT_SETTINGS_ADDR}"
+        fi
 
         echo "Importing existing Storage Account service subresources (idempotent)"
 
@@ -128,23 +140,43 @@ jobs:
         SA_MAIN="pstcdev001"
         SA_DIAG_2="pstcdevdiag002"
 
-        terraform import -input=false "module.storage[\"danposterscopetcdiag\"].azapi_resource.blob" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/blobServices/default" || true
-        terraform import -input=false "module.storage[\"danposterscopetcdiag\"].azapi_resource.file" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/fileServices/default" || true
-        terraform import -input=false "module.storage[\"danposterscopetcdiag\"].azapi_resource.queue" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/queueServices/default" || true
-        terraform import -input=false "module.storage[\"danposterscopetcdiag\"].azapi_resource.table" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/tableServices/default" || true
+        for addr in \
+          "module.storage[\"danposterscopetcdiag\"].azapi_resource.blob|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/blobServices/default" \
+          "module.storage[\"danposterscopetcdiag\"].azapi_resource.file|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/fileServices/default" \
+          "module.storage[\"danposterscopetcdiag\"].azapi_resource.queue|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/queueServices/default" \
+          "module.storage[\"danposterscopetcdiag\"].azapi_resource.table|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_1}/tableServices/default" \
+          "module.storage[\"posterscopeterms\"].azapi_resource.blob|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/blobServices/default" \
+          "module.storage[\"posterscopeterms\"].azapi_resource.file|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/fileServices/default" \
+          "module.storage[\"posterscopeterms\"].azapi_resource.queue|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/queueServices/default" \
+          "module.storage[\"posterscopeterms\"].azapi_resource.table|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/tableServices/default" \
+          "module.storage[\"posterscopetermsdiag\"].azapi_resource.blob|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/blobServices/default" \
+          "module.storage[\"posterscopetermsdiag\"].azapi_resource.file|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/fileServices/default" \
+          "module.storage[\"posterscopetermsdiag\"].azapi_resource.queue|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/queueServices/default" \
+          "module.storage[\"posterscopetermsdiag\"].azapi_resource.table|/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/tableServices/default" \
+          ; do
+          TF_ADDR="${addr%%|*}"
+          TF_ID="${addr##*|}"
 
-        terraform import -input=false "module.storage[\"posterscopeterms\"].azapi_resource.blob" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/blobServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopeterms\"].azapi_resource.file" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/fileServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopeterms\"].azapi_resource.queue" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/queueServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopeterms\"].azapi_resource.table" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_MAIN}/tableServices/default" || true
+          if terraform import -input=false "${TF_ADDR}" "${TF_ID}"; then
+            echo "Imported: ${TF_ADDR}"
+          else
+            echo "Import failed (continuing): ${TF_ADDR}"
+          fi
+        done
 
-        terraform import -input=false "module.storage[\"posterscopetermsdiag\"].azapi_resource.blob" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/blobServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopetermsdiag\"].azapi_resource.file" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/fileServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopetermsdiag\"].azapi_resource.queue" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/queueServices/default" || true
-        terraform import -input=false "module.storage[\"posterscopetermsdiag\"].azapi_resource.table" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.Storage/storageAccounts/${SA_DIAG_2}/tableServices/default" || true
+        echo "--- quick import verification (should show these in state list) ---"
+        terraform state list | grep -E "module\.recovery_vault\.azapi_resource\.(replication_alert|replication_vault_settings)" || true
+        terraform state list | grep -E "module\.storage\[\"(danposterscopetcdiag|posterscopeterms|posterscopetermsdiag)\"\]\.azapi_resource\.(blob|file|queue|table)" || true
 
         echo "Importing SQL workload backup policy if it already exists (idempotent)"
-        terraform import -input=false "module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.RecoveryServices/vaults/${VAULT_NAME}/backupPolicies/HourlyLogBackup-dev" || true
+        if terraform import -input=false "module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.RecoveryServices/vaults/${VAULT_NAME}/backupPolicies/HourlyLogBackup-dev"; then
+          echo "Imported: module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]"
+        else
+          echo "Import failed (continuing): module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]"
+        fi
+
+        echo "--- terraform state AFTER imports ---"
+        terraform state list || true
 
     - name: Terraform Format Check
       working-directory: ${{ env.TF_DIR }}
