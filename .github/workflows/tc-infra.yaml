@@ -169,7 +169,7 @@ jobs:
         terraform state list | grep -E "module\.storage\[\"(danposterscopetcdiag|posterscopeterms|posterscopetermsdiag)\"\]\.azapi_resource\.(blob|file|queue|table)" || true
 
         echo "Importing SQL workload backup policy if it already exists (idempotent)"
-        if terraform import -input=false "module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.RecoveryServices/vaults/${VAULT_NAME}/backupPolicies/HourlyLogBackup-dev"; then
+        if terraform import -input=false "module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]" "/subscriptions/${ARM_SUBSCRIPTION_ID}/resourceGroups/${RG_NAME}/providers/Microsoft.RecoveryServices/vaults/${VAULT_NAME}/backupPolicies/HourlyLogBackup"; then
           echo "Imported: module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]"
         else
           echo "Import failed (continuing): module.recovery_vault.azurerm_backup_policy_vm_workload.sql[0]"

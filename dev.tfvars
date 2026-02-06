@@ -340,7 +340,7 @@ recovery_vault = {
     }
   }
   "sql_workload_policy" = {
-    "name"                      = "HourlyLogBackup-dev"
+    "name"                      = "HourlyLogBackup"
     "timezone"                  = "UTC"
     "full_backup_time"          = "08:00"
     "full_retention_days"       = 30
