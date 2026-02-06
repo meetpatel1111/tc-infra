@@ -143,7 +143,7 @@ public_ips = {
 
 storage_accounts = {
   "danposterscopetcdiag" = {
-    "name"               = "pstcdevdiag001"
+    "name"               = "pstcdevdiag-001"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -170,7 +170,7 @@ storage_accounts = {
     ]
   }
   "posterscopeterms" = {
-    "name"               = "pstcdev001"
+    "name"               = "pstcdev-001"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -197,7 +197,7 @@ storage_accounts = {
     ]
   }
   "posterscopetermsdiag" = {
-    "name"               = "pstcdevdiag002"
+    "name"               = "pstcdevdiag-002"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
