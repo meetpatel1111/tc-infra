@@ -118,25 +118,32 @@ nsgs = {
 
 public_ips = {
   "IISServer-ip" = {
-    "location"          = "eastus"
-    "sku"               = "Standard"
+    "name"              = "IISServer-dev-ip"
     "allocation_method" = "Static"
-    "zones" = [
-      "1",
-      "2",
-      "3"
-    ]
+    "sku"               = "Standard"
+    "dns"               = "iisserver-dev.eastus.cloudapp.azure.com"
+    "location"          = "eastus"
+    "tags" = {
+      "app" = "posterscope-terms"
+      "env" = "dev"
+    }
   }
   "TermsConditions-ip" = {
-    "location"          = "eastus"
-    "sku"               = "Standard"
+    "name"              = "TermsConditions-dev-ip"
     "allocation_method" = "Static"
-    "domain_name_label" = "danterms"
+    "sku"               = "Standard"
+    "dns"               = "termsconditions-dev.eastus.cloudapp.azure.com"
+    "location"          = "eastus"
+    "tags" = {
+      "app" = "posterscope-terms"
+      "env" = "dev"
+    }
   }
 }
 
 storage_accounts = {
   "danposterscopetcdiag" = {
+    "name"               = "danposterscopetcdiag-dev"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -146,58 +153,67 @@ storage_accounts = {
     "allow_public_blob"  = true
     "shared_key_enabled" = true
     "default_to_oauth"   = false
+    "tags" = {
+      "app" = "posterscope-terms"
+    }
+    "network_rules" = {
+      "default" = {
+        "action"   = "Allow"
+        "priority" = 100
+      }
+    }
     "containers" = [
       {
         "name"        = "bootdiagnostics-termscond-052dce4b-4dfe-488e-a32c-c71151576db7"
-        "access_type" = "private"
       }
     ]
-    "enable_static_website" = false
   }
   "posterscopeterms" = {
-    "location"           = "eastus"
-    "kind"               = "StorageV2"
-    "tier"               = "Standard"
-    "replication_type"   = "RAGRS"
-    "min_tls_version"    = "TLS1_2"
-    "https_only"         = true
-    "allow_public_blob"  = true
-    "shared_key_enabled" = true
-    "default_to_oauth"   = false
-    "containers" = [
-      {
-        "name"        = "$web"
-        "access_type" = "private"
-      },
-      {
-        "name"        = "allsites"
-        "access_type" = "private"
-      },
-      {
-        "name"        = "posterscopezip"
-        "access_type" = "private"
-      }
-    ]
-    "enable_static_website" = true
-    "access_tier"           = "Hot"
-  }
-  "posterscopetermsdiag" = {
+    "name"               = "posterscopeterms-dev"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
     "replication_type"   = "LRS"
     "min_tls_version"    = "TLS1_2"
-    "https_only"         = false
+    "https_only"         = true
     "allow_public_blob"  = true
     "shared_key_enabled" = true
     "default_to_oauth"   = false
+    "tags" = {
+      "app" = "posterscope-terms"
+    }
+    "network_rules" = {
+      "default" = {
+        "action"   = "Allow"
+        "priority" = 100
+      }
+    }
     "containers" = [
       {
         "name"        = "bootdiagnostics-iisserver-2b9f7e04-df41-4f52-8be6-164c8ef1cfaf"
-        "access_type" = "private"
       }
     ]
-    "enable_static_website" = false
+  }
+  "posterscopetermsdiag" = {
+    "name"               = "posterscopeterms-dev-diag"
+    "location"           = "eastus"
+    "kind"               = "Storage"
+    "tier"               = "Standard"
+    "replication_type"   = "LRS"
+    "min_tls_version"    = "TLS1_2"
+    "https_only"         = true
+    "allow_public_blob"  = true
+    "shared_key_enabled" = true
+    "default_to_oauth"   = false
+    "tags" = {
+      "app" = "posterscope-terms"
+    }
+    "network_rules" = {
+      "default" = {
+        "action"   = "Allow"
+        "priority" = 100
+      }
+    }
   }
 }
 
@@ -206,14 +222,14 @@ nics = {
     "location"      = "eastus"
     "subnet_key"    = "DAN_Posterscope_TC-vnet.default"
     "private_ip"    = "10.0.3.4"
-    "public_ip_key" = "IISServer-ip"
+    "public_ip_key" = "IISServer-dev-ip"
     "nsg_key"       = "IISServer-nsg"
   }
   "termsconditions215" = {
     "location"      = "eastus"
-    "subnet_key"    = "DAN_Posterscope_TCvnet588.default"
-    "private_ip"    = "10.0.5.4"
-    "public_ip_key" = "TermsConditions-ip"
+    "subnet_key"    = "DAN_Posterscope_TC-vnet.default"
+    "private_ip"    = "10.0.3.5"
+    "public_ip_key" = "TermsConditions-dev-ip"
     "nsg_key"       = "TermsConditions-nsg"
   }
 }
@@ -221,24 +237,24 @@ nics = {
 windows_vms = {
   "IISServer" = {
     "location"         = "eastus"
-    "size"             = "Standard_DS1_v2"
+    "size"             = "Standard_B2ms"
     "nic_key"          = "iisserver845"
     "admin_username"   = "serveradmin"
     "admin_password"   = "CHANGE_ME_STRONG_PASSWORD"
     "license_type"     = "Windows_Server"
     "enable_boot_diag" = true
-    "boot_diag_sa_key" = "posterscopetermsdiag"
+    "boot_diag_sa_key" = "danposterscopetcdiag-dev"
     "source_image_reference" = {
       "publisher" = "MicrosoftWindowsServer"
       "offer"     = "WindowsServer"
-      "sku"       = "2008-R2-SP1-smalldisk"
+      "sku"       = "2016-Datacenter"
       "version"   = "latest"
     }
     "os_disk" = {
-      "name"                 = "IISServer_OsDisk_1_3f09d4aa27cb4cef9ed6839dd726a4ad"
+      "name"                 = "IISServer_OsDisk"
       "caching"              = "ReadWrite"
-      "storage_account_type" = "Standard_LRS"
-      "disk_size_gb"         = 128
+      "storage_account_type" = "Premium_LRS"
+      "disk_size_gb"         = 127
     }
     "vm_extensions" = [
       {
@@ -262,7 +278,7 @@ windows_vms = {
     "admin_password"   = "CHANGE_ME_STRONG_PASSWORD"
     "license_type"     = "Windows_Server"
     "enable_boot_diag" = true
-    "boot_diag_sa_key" = "danposterscopetcdiag"
+    "boot_diag_sa_key" = "danposterscopetcdiag-dev"
     "source_image_reference" = {
       "publisher" = "MicrosoftWindowsServer"
       "offer"     = "WindowsServer"
@@ -270,7 +286,7 @@ windows_vms = {
       "version"   = "latest"
     }
     "os_disk" = {
-      "name"                 = "TermsConditions_disk1_e4f29f66ce7f475eb4f21152c1d59eda"
+      "name"                 = "TermsConditions_OsDisk"
       "caching"              = "ReadWrite"
       "storage_account_type" = "Premium_LRS"
       "disk_size_gb"         = 127
