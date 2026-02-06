@@ -143,7 +143,7 @@ public_ips = {
 
 storage_accounts = {
   "danposterscopetcdiag" = {
-    "name"               = "danposterscopetcdiag-dev-2026"
+    "name"               = "danposterscopetcdiag-dev-20260206"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -170,7 +170,7 @@ storage_accounts = {
     ]
   }
   "posterscopeterms" = {
-    "name"               = "posterscopeterms-dev-2026"
+    "name"               = "posterscopeterms-dev-20260206"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -197,7 +197,7 @@ storage_accounts = {
     ]
   }
   "posterscopetermsdiag" = {
-    "name"               = "posterscopetermsdiag-dev-2026"
+    "name"               = "posterscopetermsdiag-dev-20260206"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
