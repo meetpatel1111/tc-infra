@@ -16,10 +16,8 @@ vnets = {
     ]
     "subnets" = {
       "default" = {
-        "name" = "default"
-        "address_prefixes" = [
-          "10.0.3.0/24"
-        ]
+        "name"           = "default"
+        "address_prefix" = "10.0.3.0/24"
       }
     }
     "tags" = {
