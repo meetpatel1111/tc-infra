@@ -213,8 +213,9 @@ windows_vms = {
 nsgs = {
   "IISServer-nsg" = {
     "location" = "eastus"
-    "rules" = {
-      "RDP" = {
+    "rules" = [
+      {
+        "name"                       = "RDP"
         "access"                     = "Allow"
         "direction"                  = "Inbound"
         "priority"                   = 100
@@ -224,12 +225,13 @@ nsgs = {
         "source_address_prefix"      = "*"
         "destination_address_prefix" = "*"
       }
-    }
+    ]
   }
   "TermsConditions-nsg" = {
     "location" = "eastus"
-    "rules" = {
-      "Port_80" = {
+    "rules" = [
+      {
+        "name"                       = "Port_80"
         "access"                     = "Allow"
         "direction"                  = "Inbound"
         "priority"                   = 100
@@ -238,8 +240,9 @@ nsgs = {
         "destination_port_range"     = "80"
         "source_address_prefix"      = "*"
         "destination_address_prefix" = "*"
-      }
-      "RDP" = {
+      },
+      {
+        "name"                       = "RDP"
         "access"                     = "Allow"
         "direction"                  = "Inbound"
         "priority"                   = 110
@@ -249,7 +252,7 @@ nsgs = {
         "source_address_prefix"      = "*"
         "destination_address_prefix" = "*"
       }
-    }
+    ]
   }
 }
 
