@@ -56,7 +56,7 @@ module "storage" {
     azapi   = azapi
   }
   resource_group_name = module.rg.name
-  name                = each.key
+  name                = each.value.name
   location            = each.value.location
 
   kind               = each.value.kind

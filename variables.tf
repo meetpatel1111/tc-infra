@@ -32,6 +32,7 @@ variable "public_ips" {
 
 variable "storage_accounts" {
   type = map(object({
+    name                  = string,
     location              = string, kind = string, tier = string, replication_type = string,
     min_tls_version       = string, https_only = bool, allow_public_blob = bool,
     shared_key_enabled    = bool, default_to_oauth = bool, access_tier = optional(string),

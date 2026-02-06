@@ -76,13 +76,17 @@ resource "azurerm_backup_policy_vm_workload" "sql" {
     backup {
       frequency = "Daily"
       time      = var.sql_workload_policy.full_backup_time
+      weekdays  = null
     }
     retention_daily { count = var.sql_workload_policy.full_retention_days }
   }
 
   protection_policy {
     policy_type = "Log"
-    backup { frequency_in_minutes = var.sql_workload_policy.log_backup_frequency_mins }
+    backup {
+      frequency_in_minutes = var.sql_workload_policy.log_backup_frequency_mins
+      weekdays             = null
+    }
     retention_daily { count = var.sql_workload_policy.log_retention_days }
   }
 
