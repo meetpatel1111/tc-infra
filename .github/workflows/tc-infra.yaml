@@ -69,6 +69,26 @@ jobs:
           "${BACKEND_CONTAINER}" \
           "eastus"
 
+    - name: Prepare tfvars (ensure exists + inject secrets)
+      working-directory: ${{ env.TF_DIR }}
+      run: |
+        set -euo pipefail
+
+        # If env tfvars doesn't exist, create from terraform.tfvars
+        if [ ! -f "${TFVARS_FILE}" ]; then
+          echo "No ${TFVARS_FILE} found. Creating from terraform.tfvars..."
+          cp terraform.tfvars "${TFVARS_FILE}"
+        fi
+
+        # Replace placeholder password if present
+        if grep -q "CHANGE_ME_STRONG_PASSWORD" "${TFVARS_FILE}"; then
+          if [ -z "${{ secrets.TF_VM_ADMIN_PASSWORD }}" ]; then
+            echo "TF_VM_ADMIN_PASSWORD secret is missing. Cannot replace placeholder."
+            exit 1
+          fi
+          sed -i "s/CHANGE_ME_STRONG_PASSWORD/${{ secrets.TF_VM_ADMIN_PASSWORD }}/g" "${TFVARS_FILE}"
+        fi
+
     - name: Terraform Init
       working-directory: ${{ env.TF_DIR }}
       run: |
