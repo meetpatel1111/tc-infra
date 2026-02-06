@@ -143,7 +143,7 @@ public_ips = {
 
 storage_accounts = {
   "danposterscopetcdiag" = {
-    "name"               = "danposterscopetcdiag-dev"
+    "name"               = "danposterscopetcdiag-dev-2026"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -170,7 +170,7 @@ storage_accounts = {
     ]
   }
   "posterscopeterms" = {
-    "name"               = "posterscopeterms-dev"
+    "name"               = "posterscopeterms-dev-2026"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -197,7 +197,7 @@ storage_accounts = {
     ]
   }
   "posterscopetermsdiag" = {
-    "name"               = "posterscopeterms-dev-diag"
+    "name"               = "posterscopetermsdiag-dev-2026"
     "location"           = "eastus"
     "kind"               = "Storage"
     "tier"               = "Standard"
@@ -370,7 +370,7 @@ recovery_vault = {
   "public_network_access_enabled"      = true
   "vm_policies" = {
     "DailyPolicy" = {
-      "name"                  = "DailyPolicy"
+      "name"                  = "DailyPolicy-dev"
       "timezone"              = "UTC"
       "backup_frequency"      = "Daily"
       "backup_time"           = "05:00"
@@ -380,7 +380,7 @@ recovery_vault = {
       ]
     }
     "DefaultPolicy" = {
-      "name"                  = "DefaultPolicy"
+      "name"                  = "DefaultPolicy-dev"
       "timezone"              = "UTC"
       "backup_frequency"      = "Daily"
       "backup_time"           = "08:00"
@@ -388,7 +388,7 @@ recovery_vault = {
     }
   }
   "sql_workload_policy" = {
-    "name"                      = "HourlyLogBackup"
+    "name"                      = "HourlyLogBackup-dev"
     "timezone"                  = "UTC"
     "full_backup_time"          = "08:00"
     "full_retention_days"       = 30
