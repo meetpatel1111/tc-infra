@@ -222,14 +222,14 @@ nics = {
     "location"      = "eastus"
     "subnet_key"    = "DAN_Posterscope_TC-vnet.default"
     "private_ip"    = "10.0.3.4"
-    "public_ip_key" = "IISServer-dev-ip"
+    "public_ip_key" = "IISServer-ip"
     "nsg_key"       = "IISServer-nsg"
   }
   "termsconditions215" = {
     "location"      = "eastus"
     "subnet_key"    = "DAN_Posterscope_TC-vnet.default"
     "private_ip"    = "10.0.3.5"
-    "public_ip_key" = "TermsConditions-dev-ip"
+    "public_ip_key" = "TermsConditions-ip"
     "nsg_key"       = "TermsConditions-nsg"
   }
 }
