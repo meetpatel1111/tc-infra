@@ -178,7 +178,9 @@ windows_vms = {
         "settings" = {
           "UserName" = "serveradmin"
         }
-        "protected_settings"         = {}
+        "protected_settings" = {
+          "Password" = "CHANGE_ME_STRONG_PASSWORD"
+        }
         "auto_upgrade_minor_version" = true
       }
     ]
