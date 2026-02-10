@@ -25,6 +25,22 @@ vnets = {
       "env" = "dev"
     }
   }
+  "DAN_Posterscope_TCvnet588" = {
+    "location" = "eastus"
+    "address_space" = [
+      "10.0.5.0/24"
+    ]
+    "subnets" = {
+      "default" = {
+        "name"           = "default"
+        "address_prefix" = "10.0.5.0/24"
+      }
+    }
+    "tags" = {
+      "app" = "posterscope-terms"
+      "env" = "dev"
+    }
+  }
 }
 
 public_ips = {
@@ -103,6 +119,18 @@ storage_accounts = {
     "containers" = [
       {
         "name"        = "bootdiagnostics-iisserver-2b9f7e04-df41-4f52-8be6-164c8ef1cfaf"
+        "access_type" = "private"
+      },
+      {
+        "name"        = "$web"
+        "access_type" = "private"
+      },
+      {
+        "name"        = "allsites"
+        "access_type" = "private"
+      },
+      {
+        "name"        = "posterscopezip"
         "access_type" = "private"
       }
     ]
@@ -214,6 +242,17 @@ nsgs = {
   "IISServer-nsg" = {
     "location" = "eastus"
     "rules" = [
+      {
+        "name"                       = "Port_80"
+        "access"                     = "Allow"
+        "direction"                  = "Inbound"
+        "priority"                   = 110
+        "protocol"                   = "Tcp"
+        "source_port_range"          = "*"
+        "destination_port_range"     = "80"
+        "source_address_prefix"      = "*"
+        "destination_address_prefix" = "*"
+      },
       {
         "name"                       = "RDP"
         "access"                     = "Allow"
@@ -340,5 +379,12 @@ recovery_vault = {
       "backup_time"           = "08:00"
       "retention_daily_count" = 30
     }
+  }
+  "sql_workload_policy" = {
+    "name"                      = "HourlyLogBackup"
+    "timezone"                  = "UTC"
+    "full_retention_days"       = 30
+    "log_backup_frequency_mins" = 60
+    "log_retention_days"        = 30
   }
 }

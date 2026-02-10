@@ -60,3 +60,55 @@ resource "azurerm_backup_policy_vm" "vm" {
 
   depends_on = [azapi_update_resource.vault_patch]
 }
+
+resource "azurerm_backup_policy_vm_workload" "sql" {
+  count = var.sql_workload_policy == null ? 0 : 1
+
+  name                = var.sql_workload_policy.name
+  resource_group_name = var.resource_group_name
+  recovery_vault_name = azurerm_recovery_services_vault.this.name
+
+  backup_management_type = "AzureWorkload"
+  workload_type          = "SQLDataBase"
+
+  settings {
+    time_zone = var.sql_workload_policy.timezone
+  }
+
+  sub_protection_policy {
+    policy_type = "Full"
+
+    schedule_policy {
+      schedule_policy_type   = "SimpleSchedulePolicy"
+      schedule_run_frequency = "Daily"
+      schedule_run_times     = [var.sql_workload_policy.full_backup_time]
+    }
+
+    retention_policy {
+      retention_policy_type = "LongTermRetentionPolicy"
+      retention_duration {
+        count         = var.sql_workload_policy.full_retention_days
+        duration_type = "Days"
+      }
+    }
+  }
+
+  sub_protection_policy {
+    policy_type = "Log"
+
+    schedule_policy {
+      schedule_policy_type       = "LogSchedulePolicy"
+      schedule_frequency_in_mins = var.sql_workload_policy.log_backup_frequency_mins
+    }
+
+    retention_policy {
+      retention_policy_type = "SimpleRetentionPolicy"
+      retention_duration {
+        count         = var.sql_workload_policy.log_retention_days
+        duration_type = "Days"
+      }
+    }
+  }
+
+  depends_on = [azapi_update_resource.vault_patch]
+}
