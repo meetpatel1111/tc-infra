@@ -383,6 +383,7 @@ recovery_vault = {
   "sql_workload_policy" = {
     "name"                      = "HourlyLogBackup"
     "timezone"                  = "UTC"
+    "full_backup_time"          = "2020-01-31T08:00:00Z"
     "full_retention_days"       = 30
     "log_backup_frequency_mins" = 60
     "log_retention_days"        = 30
